@@ -11,6 +11,8 @@ with open(DATASET_FILE, "r", encoding="utf-8") as f:
     datasets = json.load(f)
 
 def sample_corpus():
+
+    SAMPLE_FILE.parent.mkdir(parents=True, exist_ok=True)
     
     if SAMPLE_FILE.exists():
         SAMPLE_FILE.unlink()
