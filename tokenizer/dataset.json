@@ -1,0 +1,66 @@
+    {
+        "datasets": [
+            {
+                "name": "fineweb",
+                "type": "huggingface",
+                "dataset": "HuggingFaceFW/fineweb_100BT-shuffled",
+                "split": "train",
+                "target_chars": 500000000
+            },
+            
+            {
+                "name": "fineweb_edu",
+                "type": "huggingface",
+                "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
+                "split": "train",
+                "target_chars": 300000000
+            },
+        
+            {
+                "name": "math",
+                "type": "huggingface",
+                "dataset": "open-web-math/open-web-math",
+                "split": "train",
+                "target_chars": 100000000
+        
+            },
+        
+            {
+                "name": "python_code",
+                "type": "huggingface",
+                "dataset": "common-pile/stackv2",
+                "split": "train",
+                "target_chars": 120000000,
+                "language": "Python"
+        
+            },
+        
+            {
+                "name": "c_code",
+                "type": "huggingface",
+                "dataset": "common-pile/stackv2",
+                "split": "train",
+                "target_chars": 30000000,
+                "language": "C"
+        
+            },
+        
+            {
+                "name": "wikipedia",
+                "type": "huggingface",
+                "dataset": "wikimedia/wikipedia",
+                "config": "20231101.en",
+                "split": "train",
+                "target_chars": 50000000
+        
+            },
+        
+            {
+                "name": "nexus_tools",
+                "type": "local",
+                "file": "data/nexus_tools.txt",
+                "target_chars": 10000000
+        
+            }
+        ]
+    }
