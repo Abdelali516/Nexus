@@ -12,7 +12,7 @@ with open(DATASET_FILE, "r", encoding="utf-8") as f:
 
 def sample_corpus():
     
-    if SAMPLE_FILE.exists:
+    if SAMPLE_FILE.exists():
         SAMPLE_FILE.unlink()
     
 
@@ -63,11 +63,13 @@ def sample_corpus():
                         continue
 
                 text=example["text"]
+                remaining = dataset_type["target_chars"] - written_chars
+                if remaining <= 0:
+                    break
+                
+                text = text[:remaining]
                 f.write(text+"\n")
                 written_chars+=len(text)
-                
-                if written_chars >= dataset_type["target_chars"]:
-                    break
 
         print(
             f"{dataset_type['name']}: {written_chars:,} characters collected !"
