@@ -1,0 +1,25 @@
+    
+    {
+        "vocab_size":45000,
+        "max_seq_len":2048,
+    
+        "d_model":2048,
+        "num_heads":16,
+        "d_ff":5120,
+        "num_layers":20,
+
+        "batch_size":12,
+
+        "learning_rate":3e-4,
+        "min_learning_rate":3e-5,
+        "warmup_steps":5000,
+        "lr_schedule":"cosine",
+        
+        "weight_decay":0.1,
+
+        "max_steps":100000,
+
+        "dropout":0.1,
+
+        "save_every":5000
+    }
