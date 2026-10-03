@@ -5,60 +5,41 @@ designed to handle natural English, programming languages,
 mathematics, and structured tool interactions.
 
 ## Pipeline
+## Pipeline
 
-                         NEXUS TOKENIZER
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │   Dataset Config   │
-                    │    dataset.json   │
-                    └─────────┬─────────┘
-                              │
-          ┌───────────────────┼───────────────────┐
-          ▼                   ▼                   ▼
-   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-   │   General   │     │  Technical  │     │ Structured  │
-   │    Text     │     │    Code     │     │  Tool Data  │
-   │             │     │             │     │             │
-   │ FineWeb     │     │ Python      │     │ Nexus Tools │
-   │ FineWeb-Edu │     │ C           │     │ JSON / APIs │
-   │ Wikipedia   │     │ Math        │     │ Paths / URL │
-   └──────┬──────┘     └──────┬──────┘     └──────┬──────┘
-          │                   │                   │
-          └───────────────────┼───────────────────┘
-                              ▼
-                    ┌───────────────────┐
-                    │  Corpus Sampling  │
-                    │                   │
-                    │  Target: 1.11B   │
-                    │    characters     │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │  Combined Corpus  │
-                    │   corpus_file.txt │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │  Byte-Level BPE   │
-                    │     Training      │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │   45K Vocabulary  │
-                    │                   │
-                    │  + Special Tokens │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │  tokenizer.json   │
-                    │                   │
-                    │   Nexus Tokenizer │
-                    └───────────────────┘
+```mermaid
+flowchart TB
+    A["Dataset Configuration<br/>dataset.json"]
+
+    A --> B["General Text"]
+    A --> C["Technical Content"]
+    A --> D["Structured Tool Data"]
+
+    B --> B1["FineWeb<br/>FineWeb-Edu<br/>Wikipedia"]
+    C --> C1["Python<br/>C<br/>Mathematics"]
+    D --> D1["Nexus Tools<br/>JSON / APIs<br/>Paths / URLs"]
+
+    B1 --> E["Corpus Sampling"]
+    C1 --> E
+    D1 --> E
+
+    E --> F["Combined Corpus<br/>1.11B Characters"]
+
+    F --> G["Byte-Level BPE<br/>Training"]
+
+    G --> H["45K Vocabulary<br/>+ Special Tokens"]
+
+    H --> I["tokenizer.json<br/>Nexus Tokenizer"]
+
+    classDef source fill:#f6f8fa,stroke:#8b949e,stroke-width:1px
+    classDef process fill:#ddf4ff,stroke:#0969da,stroke-width:1px
+    classDef output fill:#dafbe1,stroke:#1a7f37,stroke-width:1px
+
+    class A,B,C,D,B1,C1,D1 source
+    class E,F,G,H process
+    class I output
+```
+
 
 ## Corpus
 
