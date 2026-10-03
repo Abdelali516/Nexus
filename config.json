@@ -16,10 +16,17 @@
         "lr_schedule":"cosine",
         
         "weight_decay":0.1,
+        "grad_clip":1.0,                                 
 
+        "dropout":0.0,
+        
         "max_steps":100000,
+        "save_every":5000,
+        "eval_every": 1000,
+        "save_best": true,
 
-        "dropout":0.1,
+        "dtype": "bfloat16",
+        "gradient_accumulation_steps": 1,
 
-        "save_every":5000
+        "seed": 42
     }
