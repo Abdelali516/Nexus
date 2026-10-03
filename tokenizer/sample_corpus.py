@@ -16,7 +16,7 @@ def sample_corpus():
         SAMPLE_FILE.unlink()
     
 
-    for dataset_type in datasets:
+    for dataset_type in datasets["datasets"]:
 
         if dataset_type["type"] == "local":
 
