@@ -8,7 +8,6 @@ mathematics, and structured tool interactions.
 
 ![Nexus Tokenizer Pipeline](./assets/tokenizer_pipeline.png)
 
-
 ## Corpus
 
 The tokenizer is trained on a 1.11B-character corpus composed of:
@@ -25,9 +24,7 @@ The tokenizer is trained on a 1.11B-character corpus composed of:
 
 - Algorithm: Byte-Level BPE
 - Vocabulary: 45,000 tokens
-- Context length: 2,048
-- Special tokens: ...
-
+- Special tokens: `<pad>`, `<bos>`, `<eos>`, `<unk>`, `<|user|>`, `<|assistant|>`, `<|system|>`
 
 ## Files
 
