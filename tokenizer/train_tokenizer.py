@@ -13,7 +13,6 @@ with open(CONFIG_FILE,"r") as f:
 
 
 SAMPLE_FILE = TOKENIZER_DIR / "data" / "corpus_file.txt"
-TOOL_CORPUS_FILE = TOKENIZER_DIR / "data" / "nexus_tools.txt"
 
 OUTPUT_DIR = TOKENIZER_DIR / "trained"
 
