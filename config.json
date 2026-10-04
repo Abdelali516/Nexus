@@ -1,6 +1,6 @@
     
     {
-        "vocab_size":45000,
+        "vocab_size":50000,
         "max_seq_len":2048,
     
         "d_model":2048,
