@@ -1,6 +1,9 @@
+import os
 from pathlib import Path
 import json
 from datasets import load_dataset
+
+os.environ["HF_HUB_DOWNLOAD_TIMEOUT"]= "120"
 
 TOKENIZER_DIR = Path(__file__).resolve().parent
 
