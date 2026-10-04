@@ -7,7 +7,7 @@ TOKENIZER_DIR = Path(__file__).resolve().parent
 DATASET_FILE = TOKENIZER_DIR / "dataset.json"
 SAMPLE_FILE = TOKENIZER_DIR / "data" / "corpus_file.txt"
 
-with open(DATASET_FILE, "r", encoding="utf-8") as f:
+with open(DATASET_FILE, "r") as f:
     datasets = json.load(f)
 
 def sample_corpus():
@@ -23,23 +23,14 @@ def sample_corpus():
         if dataset_type["type"] == "local":
 
             local_file = TOKENIZER_DIR / dataset_type["file"]
-            target_chars = dataset_type["target_chars"]
 
-            written_chars = 0
             with open(local_file, "r", encoding="utf-8") as source:
                 with open(SAMPLE_FILE, "a", encoding="utf-8") as output:
 
                     for line in source:
-                        remaining = target_chars - written_chars
-                        
-                        if remaining <= 0:
-                            break
+                        output.write(line)
 
-                        text = line[:remaining]
-                        output.write(text)
-                        written_chars += len(text)
-
-            print(f"{dataset_type['name']}: {written_chars:,} characters collected!")
+            print(f"{dataset_type['name']} added to corpus!")
             continue
 
         # Hugging Face Dataset !
