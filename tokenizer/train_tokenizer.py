@@ -24,7 +24,7 @@ def train_tokenizer():
     tokenizer=ByteLevelBPETokenizer()
 
     tokenizer.train(
-        files=[SAMPLE_FILE],
+        files=[str(SAMPLE_FILE)],
         vocab_size=config["vocab_size"],
         min_frequency=2,
         special_tokens=SPECIAL_TOKENS
