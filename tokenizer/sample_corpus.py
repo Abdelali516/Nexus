@@ -54,7 +54,7 @@ def sample_corpus():
         with open (SAMPLE_FILE,"a",encoding="utf-8") as f:
             for example in dataset:
 
-                text=example[dataset_type["text_filed"]]
+                text=example[dataset_type["text_field"]]
 
                 remaining = dataset_type["target_chars"] - written_chars
                 if remaining <= 0:
