@@ -28,21 +28,17 @@
             {
                 "name": "python_code",
                 "type": "huggingface",
-                "dataset": "common-pile/stackv2",
+                "dataset": "codeparrot/codeparrot-clean",
                 "split": "train",
-                "target_chars": 120000000,
-                "language": "Python"
-        
+                "target_chars": 120000000
             },
         
             {
                 "name": "c_code",
                 "type": "huggingface",
-                "dataset": "common-pile/stackv2",
+                "dataset": "ajibawa-2023/C-Code-Large",
                 "split": "train",
-                "target_chars": 30000000,
-                "language": "C"
-        
+                "target_chars": 30000000
             },
         
             {
