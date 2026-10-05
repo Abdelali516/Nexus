@@ -1,6 +1,6 @@
 from pathlib import Path # is python's built in way of working with file and folder paths.
 import json
-from tokenizer import ByteLevelBPETokenizer
+from tokenizers import ByteLevelBPETokenizer
 
 
 ROOT_DIR=Path(__file__).resolve().parent.parent
@@ -18,7 +18,6 @@ OUTPUT_DIR = TOKENIZER_DIR / "trained"
 
 SPECIAL_TOKENS=["<pad>", "<bos>", "<eos>", "<unk>"]
 SPECIAL_TOKENS+=["<|user|>", "<|assistant|>", "<|system|>"]
-
 
 def train_tokenizer():
     
