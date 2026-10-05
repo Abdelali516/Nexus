@@ -1,68 +1,62 @@
-    {
-        "datasets": [
-            {
-                "name": "fineweb",
-                "type": "huggingface",
-                "dataset": "HuggingFaceFW/fineweb_100BT-shuffled",
-                "split": "train",
-                "target_chars": 500000000,
-                "text_field": "text"
-            },
-            
-            {
-                "name": "fineweb_edu",
-                "type": "huggingface",
-                "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
-                "split": "train",
-                "target_chars": 300000000,
-                "text_field": "text"
-            },
-        
-            {
-                "name": "math",
-                "type": "huggingface",
-                "dataset": "open-web-math/open-web-math",
-                "split": "train",
-                "target_chars": 100000000,
-                "text_field": "text"
-        
-            },
-        
-            {
-                "name": "python_code",
-                "type": "huggingface",
-                "dataset": "codeparrot/codeparrot-clean",
-                "split": "train",
-                "target_chars": 120000000,
-                "text_field": "content"
-            },
-        
-            {
-                "name": "c_code",
-                "type": "huggingface",
-                "dataset": "ajibawa-2023/C-Code-Large",
-                "split": "train",
-                "target_chars": 30000000,
-                "text_field": "code"
-            },
-        
-            {
-                "name": "wikipedia",
-                "type": "huggingface",
-                "dataset": "wikimedia/wikipedia",
-                "config": "20231101.en",
-                "split": "train",
-                "target_chars": 50000000,
-                "text_field": "text"
-        
-            },
-        
-            {
-                "name": "nexus_tools",
-                "type": "local",
-                "file": "data/nexus_tools.txt",
-                "target_chars": 10000000
-        
-            }
-        ]
-    }
+{
+    "seed": 42,
+    "shuffle_buffer": 10000,
+    "min_doc_chars": 200,
+    "datasets": [
+        {
+            "name": "fineweb",
+            "type": "huggingface",
+            "dataset": "HuggingFaceFW/fineweb_100BT-shuffled",
+            "split": "train",
+            "target_chars": 400000000,
+            "text_field": "text"
+        },
+        {
+            "name": "fineweb_edu",
+            "type": "huggingface",
+            "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
+            "split": "train",
+            "target_chars": 250000000,
+            "text_field": "text"
+        },
+        {
+            "name": "wikipedia",
+            "type": "huggingface",
+            "dataset": "wikimedia/wikipedia",
+            "config": "20231101.en",
+            "split": "train",
+            "target_chars": 60000000,
+            "text_field": "text"
+        },
+        {
+            "name": "math",
+            "type": "huggingface",
+            "dataset": "open-web-math/open-web-math",
+            "split": "train",
+            "target_chars": 90000000,
+            "text_field": "text"
+        },
+        {
+            "name": "python_code",
+            "type": "huggingface",
+            "dataset": "codeparrot/codeparrot-clean",
+            "split": "train",
+            "target_chars": 180000000,
+            "text_field": "content"
+        },
+        {
+            "name": "c_code",
+            "type": "huggingface",
+            "dataset": "ajibawa-2023/C-Code-Large",
+            "split": "train",
+            "target_chars": 30000000,
+            "text_field": "code"
+        },
+        {
+            "name": "nexus_tools",
+            "type": "local",
+            "file": "data/nexus_tools.txt",
+            "target_chars": 10000000
+        }
+    ]
+}
