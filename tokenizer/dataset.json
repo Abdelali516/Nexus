@@ -5,7 +5,8 @@
                 "type": "huggingface",
                 "dataset": "HuggingFaceFW/fineweb_100BT-shuffled",
                 "split": "train",
-                "target_chars": 500000000
+                "target_chars": 500000000,
+                "text_field": "text"
             },
             
             {
@@ -13,7 +14,8 @@
                 "type": "huggingface",
                 "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
                 "split": "train",
-                "target_chars": 300000000
+                "target_chars": 300000000,
+                "text_field": "text"
             },
         
             {
@@ -21,7 +23,8 @@
                 "type": "huggingface",
                 "dataset": "open-web-math/open-web-math",
                 "split": "train",
-                "target_chars": 100000000
+                "target_chars": 100000000,
+                "text_field": "text"
         
             },
         
@@ -30,7 +33,8 @@
                 "type": "huggingface",
                 "dataset": "codeparrot/codeparrot-clean",
                 "split": "train",
-                "target_chars": 120000000
+                "target_chars": 120000000,
+                "text_field": "content"
             },
         
             {
@@ -38,7 +42,8 @@
                 "type": "huggingface",
                 "dataset": "ajibawa-2023/C-Code-Large",
                 "split": "train",
-                "target_chars": 30000000
+                "target_chars": 30000000,
+                "text_field": "code"
             },
         
             {
@@ -47,7 +52,8 @@
                 "dataset": "wikimedia/wikipedia",
                 "config": "20231101.en",
                 "split": "train",
-                "target_chars": 50000000
+                "target_chars": 50000000,
+                "text_field": "text"
         
             },
         
