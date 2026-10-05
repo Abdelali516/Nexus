@@ -6,7 +6,23 @@ mathematics, and structured tool interactions.
 
 ## Pipeline
 
-![Nexus Tokenizer Pipeline](./assets/tokenizer_pipeline.png)
+```mermaid
+flowchart TD
+    A[Dataset Configuration<br/>dataset.json] --> B
+
+    subgraph B[Corpus Sources]
+        direction LR
+        B1[General Text<br/>FineWeb, FineWeb-Edu, Wikipedia]
+        B2[Technical Content<br/>Python, C, Mathematics]
+        B3[Structured Tool Data<br/>Nexus Tools, JSON/APIs, Paths/URLs]
+    end
+
+    B --> C[Corpus Sampling<br/>1.11B characters]
+    C --> D[Combined Training Corpus<br/>corpus_file.txt]
+    D --> E[Byte-Level BPE Training<br/>50K vocabulary]
+    E --> F[Special Tokens<br/>User, Assistant, System]
+    F --> G[Final Tokenizer<br/>tokenizer.json]
+```
 
 ## Corpus
 
@@ -23,7 +39,7 @@ The tokenizer is trained on a 1.11B-character corpus composed of:
 ## Configuration
 
 - Algorithm: Byte-Level BPE
-- Vocabulary: 45,000 tokens
+- Vocabulary: 50,000 tokens
 - Special tokens: `<pad>`, `<bos>`, `<eos>`, `<unk>`, `<|user|>`, `<|assistant|>`, `<|system|>`
 
 ## Files
