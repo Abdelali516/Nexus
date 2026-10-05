@@ -54,11 +54,8 @@ def sample_corpus():
         with open (SAMPLE_FILE,"a",encoding="utf-8") as f:
             for example in dataset:
 
-                if "language" in dataset_type:
-                    if example["metadata"]["language"] != dataset_type["language"]:
-                        continue
+                text=example[dataset_type["text_filed"]]
 
-                text=example["text"]
                 remaining = dataset_type["target_chars"] - written_chars
                 if remaining <= 0:
                     break
