@@ -221,8 +221,7 @@ def tool_error(message):
     )
 
 
-def make_example(user_text, tool_name, arguments, result, response,
-                 error=None, error_response=None):
+def make_example(user_text, tool_name, arguments, result, response,error=None, error_response=None):
     """Builds one example in the exact format the model will use.
 
     If `error` is given, the call fails ERROR_RATE of the time and the
