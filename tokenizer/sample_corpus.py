@@ -64,6 +64,11 @@ def sample_huggingface(dataset_config, output):
 
         text = example.get(dataset_config["text_field"])
 
+        if not isinstance(text, str): # if the dataset field isn't actually a string skip it !
+            continue
+
+        if len(text) < MIN_DOC_CHARS:
+            continue
 
         remaining = target_chars - written_chars
         text = text[:remaining]
