@@ -1,7 +1,7 @@
 # Nexus
 
 <p align="center">
-  <img src="assets_nexus-logo.png" width="140" alt="Nexus logo">
+  <img src=./assets/nexus-logo.png" width="140" alt="Nexus logo">
 </p>
 
 <p align="center">
@@ -28,3 +28,4 @@ nexus-agent/
 ├── evaluation/
 ├── inference/
 └── scripts/
+```
