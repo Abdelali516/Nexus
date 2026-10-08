@@ -15,7 +15,7 @@
             "name": "fineweb_edu",
             "type": "huggingface",
             "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
-            "split": "train",
+            "split": "train"    ,
             "target_chars": 250000000,
             "text_field": "text"
         },

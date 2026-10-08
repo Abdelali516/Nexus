@@ -39,12 +39,12 @@ SPECIAL_TOKENS += [
 
 
 SPLIT_PATTERN = (
-    r"|[^\r\n\p{L}\p{N}]?\p{L}+" # so words like don't, it's, we'll stay as one token
+    r"[^\r\n\p{L}\p{N}]?\p{L}+" # keeps an optional preceding character attached to a word
     r"|\p{N}" # split numbers into separate digits 
     r"| ?[^\s\p{L}\p{N}]+[\r\n]*" # groups consecutive punctuation/symbols together
     r"|\s*[\r\n]+" #  matches whitespace followed by one or more line breaks
-    r"|\s+(?!\S)" #  matches trailing whitespace after a word 
-    r"|\s+" #  matches any remaining whitespace
+    r"|\s+(?!\S)"  # matches trailing whitespace after a word
+    r"|\s+" # matches any remaining whitespace
 ) 
 
 
@@ -83,12 +83,12 @@ def train_tokenizer():
     tokenizer.pre_tokenizer = pre_tokenizers.Sequence([
         pre_tokenizers.Split(
             Regex(SPLIT_PATTERN),
-            behavior="isolated", # keep my custom regex pieces separate 
+            behavior="isolated"  # keep my custom regex pieces separate 
         ),
         pre_tokenizers.ByteLevel(
             add_prefix_space=False, # don't add space at the beginning of every input !
-            use_regex=False, # don't use the default regex since i already created my own splitting rules !
-        ),
+            use_regex=False # don't use the default regex since i already created my own splitting rules !
+        )
     ])
 
     tokenizer.decoder = decoders.ByteLevel() # the reverse side of ByteLevel !
