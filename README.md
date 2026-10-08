@@ -1,6 +1,14 @@
 # Nexus
 
-An autonomous English AI agent built from scratch, designed to complete multi-step tasks using reasoning, tools, memory, web research, code execution, and document retrieval.
+<p align="center">
+  <img src="assets_nexus-logo.png" width="140" alt="Nexus logo">
+</p>
+
+<p align="center">
+  An autonomous English AI agent built from scratch, designed to complete
+  multi-step tasks using reasoning, tools, memory, web research,
+  code execution, and document retrieval.
+</p>
 
 ## Project Structure
 
@@ -20,6 +28,3 @@ nexus-agent/
 ├── evaluation/
 ├── inference/
 └── scripts/
-```
-
->  Nexus is currently under active development.
