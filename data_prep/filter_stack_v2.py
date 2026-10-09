@@ -4,12 +4,20 @@ from pathlib import Path
 from datasets import load_dataset
 
 DATASET_NAME = "bigcode/the-stack-v2-train-smol-ids"
-OUTPUT_DIR = Path("data/stack_v2")
+
+DATA_PREP_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = DATA_PREP_DIR / "data" / "stack_v2"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 OUTPUT_FILE = OUTPUT_DIR / "python_c_manifest.jsonl"
 
+
 TARGET_LANGUAGES = {"Python", "C"}
+
+MAX_FILES = {
+    "Python": 70_000,
+    "C": 30_000,
+}
 
 def main():
 
@@ -25,6 +33,10 @@ def main():
 
     with OUTPUT_FILE.open("w", encoding="utf-8") as output:
         for repository in dataset:
+            
+            if all(counts[lang] >= MAX_FILES[lang] for lang in TARGET_LANGUAGES):
+                break
+            
             matching_files = []
 
             for file in repository.get("files", []):
@@ -32,6 +44,9 @@ def main():
 
                 if language not in TARGET_LANGUAGES:
                     continue
+
+                if counts[language] >= MAX_FILES[language]:
+                    continue             
 
                 # Exclude vendor and generated files.
                 if file.get("is_vendor", False) or file.get("is_generated", False):
