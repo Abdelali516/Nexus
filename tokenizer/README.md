@@ -7,7 +7,7 @@ mathematics, and structured tool interactions (JSON, paths, URLs, command output
 ## Pipeline
 
 <p align="center">
-  <img src="./assets/tokenizer_pipeline.png" alt="Nexus Tokenizer Pipeline" width="550">
+  <img src="../assets/tokenizer_pipeline.png" alt="Nexus Tokenizer Pipeline" width="550">
 </p>
 
 ## Corpus
