@@ -2,6 +2,7 @@ import json
 from collections import Counter
 from pathlib import Path
 from datasets import load_dataset
+import re
 
 DATASET_NAME = "bigcode/the-stack-v2-train-smol-ids"
 
@@ -14,9 +15,12 @@ OUTPUT_FILE = OUTPUT_DIR / "python_c_manifest.jsonl"
 
 TARGET_LANGUAGES = {"Python", "C"}
 
+
+# This is not the final dataset targets.
+# We collect extra files to allow for filtering, deduplication, and secret removal later.
 MAX_FILES = {
-    "Python": 1_300_000,
-    "C": 210_000,
+    "Python": 2_000_000, 
+    "C": 300_000,
 }
 
 MAX_FILES_PER_REPO = 50
@@ -28,7 +32,7 @@ def main():
         split="train",
         streaming=True,
     )
-
+ 
     dataset = dataset.shuffle(seed=42, buffer_size=10_000)
 
     counts = Counter()
