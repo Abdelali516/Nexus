@@ -19,6 +19,8 @@ MAX_FILES = {
     "C": 30_000,
 }
 
+MAX_FILES_PER_REPO = 50
+
 def main():
 
     dataset = load_dataset(
@@ -26,6 +28,8 @@ def main():
         split="train",
         streaming=True,
     )
+
+    dataset = dataset.shuffle(seed=42, buffer_size=10_000)
 
     counts = Counter()
     selected_files = 0
@@ -46,10 +50,16 @@ def main():
                     continue
 
                 if counts[language] >= MAX_FILES[language]:
-                    continue             
+                    continue
 
-                # Exclude vendor and generated files.
+                if file.get("license_type") != "permissive":
+                    continue
+
                 if file.get("is_vendor", False) or file.get("is_generated", False):
+                    continue
+
+                length = file.get("length_bytes") or 0
+                if length < 200 or length > 100_000:
                     continue
 
                 matching_files.append({
@@ -58,10 +68,13 @@ def main():
                     "language": language,
                     "blob_id": file.get("blob_id"),
                     "src_encoding": file.get("src_encoding"),
-                    "length_bytes": file.get("length_bytes"),
+                    "length_bytes": length,
                     "detected_licenses": file.get("detected_licenses", []),
                     "license_type": file.get("license_type"),
                 })
+
+                if len(matching_files) >= MAX_FILES_PER_REPO:
+                    break
 
             if not matching_files:
                 continue
