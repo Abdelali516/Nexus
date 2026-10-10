@@ -15,8 +15,8 @@ OUTPUT_FILE = OUTPUT_DIR / "python_c_manifest.jsonl"
 TARGET_LANGUAGES = {"Python", "C"}
 
 MAX_FILES = {
-    "Python": 70_000,
-    "C": 30_000,
+    "Python": 1_300_000,
+    "C": 210_000,
 }
 
 MAX_FILES_PER_REPO = 50
