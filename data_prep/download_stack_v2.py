@@ -14,7 +14,7 @@ from botocore.config import Config
 
 DATA_DIR = Path(__file__).resolve().parent / "data" / "stack_v2"
 MANIFEST_FILE = DATA_DIR / "python_manifest.jsonl"  # the list made by filter_stack_v2.py
-OUTPUT_DIR = DATA_DIR / "clean"                       # clean code is saved here
+OUTPUT_DIR = DATA_DIR / "clean_python"                       # clean code is saved here
 
 BUCKET = "softwareheritage"  # where The Stack v2 keeps the actual code
 REGION = "us-west-2"
@@ -154,7 +154,7 @@ def main():
             print(
                 f"chunk {index:06d} | kept {status['kept']:,} | secrets {status['secret']:,} "
                 f"| filtered {status['filtered']:,} | failed {status['failed']:,} "
-                f"| total Python {totals['files']['Python']:,} C {totals['files']['C']:,} "
+                f"| total Python {totals['files']['Python']:,} "
                 f"| {(time.time() - start) / 60:.1f} min"
             )
             index += 1
