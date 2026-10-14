@@ -59,9 +59,7 @@
             "path": "data_prep/data/stack_v2/clean",
             "language": "Python",
             "text_field": "text",
-            "target_tokens": 2470000000,
-            "max_passes": 2,
-            "dedup": false
+            "target_tokens": 2470000000
         },
         {
             "name": "c",
@@ -69,9 +67,7 @@
             "path": "data_prep/data/stack_v2/clean",
             "language": "C",
             "text_field": "text",
-            "target_tokens": 440000000,
-            "max_passes": 2,
-            "dedup": false
+            "target_tokens": 440000000
         }
     ]
 }
