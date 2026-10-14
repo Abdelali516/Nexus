@@ -1,0 +1,77 @@
+{
+    "seed": 42,
+    "shuffle_buffer": 50000,
+    "min_doc_chars": 200,
+    "tokens_per_shard": 100000000,
+    "val_fraction": 0.005,
+
+    "allowed_licenses": [
+        "MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unlicense",
+        "0BSD", "CC0-1.0", "Zlib", "BSL-1.0", "Python-2.0", "MIT-0",
+        "WTFPL", "BSD-2-Clause-Views", "CC-BY-3.0", "CC-BY-4.0",
+        "LicenseRef-scancode-public-domain",
+        "LicenseRef-scancode-other-permissive",
+        "LicenseRef-scancode-warranty-disclaimer",
+        "LicenseRef-scancode-generic-cla"
+    ],
+
+    "sources": [
+        {
+            "name": "fineweb_edu",
+            "type": "huggingface",
+            "dataset": "HuggingFaceFW/fineweb_edu_100BT-shuffled",
+            "split": "train",
+            "text_field": "text",
+            "target_tokens": 6850000000,
+            "dedup": true
+        },
+        {
+            "name": "fineweb",
+            "type": "huggingface",
+            "dataset": "HuggingFaceFW/fineweb_100BT-shuffled",
+            "split": "train",
+            "text_field": "text",
+            "target_tokens": 4160000000,
+            "dedup": true
+        },
+        {
+            "name": "wikipedia",
+            "type": "huggingface",
+            "dataset": "wikimedia/wikipedia",
+            "config": "20231101.en",
+            "split": "train",
+            "text_field": "text",
+            "target_tokens": 800000000,
+            "dedup": true
+        },
+        {
+            "name": "math",
+            "type": "huggingface",
+            "dataset": "open-web-math/open-web-math",
+            "split": "train",
+            "text_field": "text",
+            "target_tokens": 1280000000,
+            "dedup": true
+        },
+        {
+            "name": "python",
+            "type": "local_chunks",
+            "path": "data_prep/data/stack_v2/clean",
+            "language": "Python",
+            "text_field": "text",
+            "target_tokens": 2470000000,
+            "max_passes": 2,
+            "dedup": false
+        },
+        {
+            "name": "c",
+            "type": "local_chunks",
+            "path": "data_prep/data/stack_v2/clean",
+            "language": "C",
+            "text_field": "text",
+            "target_tokens": 440000000,
+            "max_passes": 2,
+            "dedup": false
+        }
+    ]
+}
