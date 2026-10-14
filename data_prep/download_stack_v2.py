@@ -13,7 +13,7 @@ from botocore.config import Config
 
 
 DATA_DIR = Path(__file__).resolve().parent / "data" / "stack_v2"
-MANIFEST_FILE = DATA_DIR / "python_c_manifest.jsonl"  # the list made by filter_stack_v2.py
+MANIFEST_FILE = DATA_DIR / "python_manifest.jsonl"  # the list made by filter_stack_v2.py
 OUTPUT_DIR = DATA_DIR / "clean"                       # clean code is saved here
 
 BUCKET = "softwareheritage"  # where The Stack v2 keeps the actual code
