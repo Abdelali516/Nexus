@@ -10,17 +10,16 @@ DATA_PREP_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = DATA_PREP_DIR / "data" / "stack_v2"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-OUTPUT_FILE = OUTPUT_DIR / "python_c_manifest.jsonl"
+OUTPUT_FILE = OUTPUT_DIR / "python_manifest.jsonl"
 
 
-TARGET_LANGUAGES = {"Python", "C"}
+TARGET_LANGUAGES = {"Python"}
 
 
 # This is not the final dataset targets.
 # We collect extra files to allow for filtering, deduplication, and secret removal later.
 MAX_FILES = {
-    "Python": 2_000_000, 
-    "C": 300_000,
+    "Python": 300_000
 }
 
 MAX_FILES_PER_REPO = 50
@@ -30,7 +29,7 @@ def main():
     dataset = load_dataset(
         DATASET_NAME,
         split="train",
-        streaming=True,
+        streaming=True
     )
  
     dataset = dataset.shuffle(seed=42, buffer_size=10_000)
