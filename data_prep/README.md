@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../assets/nexus-logo.png" alt="Nexus Pretraining Data" width="80">
+  <img src="./assets/nexus_logo.png" alt="Nexus logo" width="80">
 </p>
 
 # Nexus Data Pipeline
