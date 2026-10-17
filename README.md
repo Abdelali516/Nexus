@@ -10,13 +10,24 @@ using reasoning, tools, memory, web research, code execution, and document retri
 
 > Nexus is currently under active development.
 
+## Overview
+
+Nexus is built end to end: its own tokenizer, its own pretraining data, and its own model
+trained from scratch, then fine-tuned to use tools. The goal is an agent anyone can run.
+
+- **Model:** decoder-only transformer, about 800M parameters, 4,096-token context (planned)
+- **Tokenizer:** custom byte-level BPE, 50,000 tokens, built for English, code, math and tool calls
+- **Pretraining data:** about 16B tokens of English web text, math, Wikipedia and permissively
+  licensed Python and C code
+- **Agent:** tool use through a structured call format (`<|tool_call|>` ... `<|end_tool_call|>`)
+
 ## Status
 
 | Stage | Status |
 |-------|--------|
 | Tokenizer | Done: 50,000-token byte-level BPE with 32 special tokens (see [`tokenizer/`](tokenizer/)) |
-| Tokenizing the pretraining data | Next |
-| Pretraining | Planned |
+| Pretraining data | Done: tokenized shards of web, math, Wikipedia and code (see [`data_prep/`](data_prep/)) |
+| Pretraining | Next |
 | Supervised fine-tuning for tool use | Planned |
 | Agent runtime (tools, memory, planner) | Planned |
 | Evaluation | Planned |
@@ -24,19 +35,25 @@ using reasoning, tools, memory, web research, code execution, and document retri
 ## Project Structure
 
 ```
-nexus-agent/
-├── config/
-├── tokenizer/
-├── model/
-├── training/
-├── agent/
+Nexus/
+├── assets/          logo and images
+├── tokenizer/       tokenizer code and the trained tokenizer
+├── data_prep/       pretraining data pipeline
+├── config.json      model and training settings
+├── model/           (planned)
+├── training/        (planned)
+├── agent/           (planned)
 │   ├── planner/
 │   ├── executor/
 │   ├── memory/
 │   └── tools/
-├── rag/
-├── data/
-├── evaluation/
-├── inference/
-└── scripts/
+├── rag/             (planned)
+├── evaluation/      (planned)
+├── inference/       (planned)
+└── scripts/         (planned)
 ```
+
+## License
+
+MIT, see [LICENSE](LICENSE). The datasets used for training are not redistributed here;
+see each dataset's page for its license.
