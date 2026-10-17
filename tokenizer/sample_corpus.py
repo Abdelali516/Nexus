@@ -1,22 +1,17 @@
 import os
 import json
 from pathlib import Path
-
 from datasets import load_dataset
 
-
 os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = "120"
-
 
 TOKENIZER_DIR = Path(__file__).resolve().parent
 
 DATASET_FILE = TOKENIZER_DIR / "dataset.json"
 SAMPLE_FILE = TOKENIZER_DIR / "data" / "corpus_file.txt"
 
-
 with open(DATASET_FILE, "r", encoding="utf-8") as f:
     datasets = json.load(f)
-
 
 SEED = datasets["seed"]
 SHUFFLE_BUFFER = datasets["shuffle_buffer"]
@@ -41,7 +36,7 @@ def sample_huggingface(dataset_config, output):
     load_args = {
         "path": dataset_config["dataset"],
         "split": dataset_config["split"],
-        "streaming": True,
+        "streaming": True
     }
 
     if "config" in dataset_config:
@@ -51,7 +46,7 @@ def sample_huggingface(dataset_config, output):
 
     dataset = dataset.shuffle(
         seed=SEED,
-        buffer_size=SHUFFLE_BUFFER,
+        buffer_size=SHUFFLE_BUFFER
     )
 
     target_chars = dataset_config["target_chars"]

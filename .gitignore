@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Nexus generated training data
+/data_prep/shards/
+/data_prep/data/stack_v2/
+
+# Generated tokenizer corpus
+/tokenizer/data/corpus_file.txt
+
+# Local VS Code settings
+/.vscode/
