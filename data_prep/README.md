@@ -76,7 +76,7 @@ The raw data and the shards are not stored in the repository because of their si
 ```
 python data_prep/filter_stack_v2.py
 python data_prep/download_stack_v2.py
-python data_prep/filter_stack_v2_extra.py
+python data_prep/filter_stack_v2_extra.py      # if the token's target is still not reached !
 python data_prep/download_stack_v2.py          # for the extra manifest and folder
 python data_prep/tokenize_pretrain.py
 ```
