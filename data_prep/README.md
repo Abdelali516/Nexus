@@ -1,7 +1,12 @@
-<p align="center">
-  <img src="./assets/nexus_logo.png" alt="Nexus logo" width="80">
+ <p align="center">
+  <img src="../assets/nexus_logo.png" alt="Nexus logo" width="80">
 </p>
 
+<h1 align="center">Nexus Pretraining Data</h1>
+
+<p align="center">
+  From raw datasets to tokenized shards for Nexus pretraining.
+</p>
 # Nexus Data Pipeline
 
 Turns raw datasets into the token shards Nexus trains on, using the Nexus tokenizer.
