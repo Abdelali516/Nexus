@@ -35,21 +35,6 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 | Agent runtime (tools, memory, planner) | Planned |
 | Evaluation | Planned |
 
-## Data Loader
-
-[`dataloader.py`](dataloader.py) reads the tokenized shards and produces training batches.
-
-1. **Sources.** Each source in `pretrain_dataset.json` gets its own list of windows. A window is a
-   non-overlapping slice of `SEQ_LEN + 1` tokens inside one shard, so each window gives an input and
-   a shifted target.
-2. **Mixing.** For each batch, every row picks a source at random, weighted by `target_tokens`.
-   This keeps all sources in the batch at all times, instead of training on one source at a time.
-3. **Reading order.** Within a source, windows are read in a shuffled order. When a source runs out
-   of windows, it starts a new pass (epoch) with a new order. Each source tracks its own epoch and
-   position.
-4. **Reproducibility.** All randomness comes from `config["seed"]`, so the same seed gives the same
-   batches.
-
 ## Project Structure
 
 ```
