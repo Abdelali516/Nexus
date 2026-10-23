@@ -5,23 +5,6 @@
 Building blocks for the Nexus model: the token embedding that turns token ids into vectors, and
 RoPE, which encodes token positions inside attention.
 
-## Pipeline
-
-```mermaid
-flowchart LR
-    ids["Token ids (B, T)"] --> emb["TokenEmbedding"]
-    emb --> x["x (B, T, d_model)"]
-    x --> q["Q = x W_q"]
-    x --> k["K = x W_k"]
-    x --> v["V = x W_v"]
-    q --> rq["RoPE"]
-    k --> rk["RoPE"]
-    rq --> att["Attention scores"]
-    rk --> att
-    att --> out["Weighted sum"]
-    v --> out
-```
-
 ## Contents
 
 - `embedding.py`: `TokenEmbedding`, token ids to vectors

@@ -28,7 +28,9 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 | Tokenizer | Done: 50,000-token byte-level BPE with 32 special tokens (see [`tokenizer/`](tokenizer/)) |
 | Pretraining data | Done: tokenized shards of web, math, Wikipedia and code (see [`data_prep/`](data_prep/)) |
 | Data loader | Done: mixes sources by weight and serves training batches (see [`dataloader.py`](dataloader.py)) |
-| Pretraining | Next |
+| Model layers | Done: token embedding and RoPE (see [`layers/`](layers/)) |
+| Attention block | Next |
+| Pretraining | Planned |
 | Supervised fine-tuning for tool use | Planned |
 | Agent runtime (tools, memory, planner) | Planned |
 | Evaluation | Planned |
@@ -55,6 +57,8 @@ Nexus/
 ├── assets/          logo and images
 ├── tokenizer/       tokenizer code and the trained tokenizer
 ├── data_prep/       pretraining data pipeline
+├── dataloader.py    batch loader for pretraining
+├── layers/          token embedding and RoPE
 ├── config.json      model and training settings
 ├── model/           (planned)
 ├── training/        (planned)
