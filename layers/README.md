@@ -3,11 +3,10 @@
 Building blocks for the Nexus model: the token embedding that turns token ids into vectors, and
 RoPE, which encodes token positions inside attention.
 
-## Pipeline
 
- <p align="center">
-  <img src="../assets/nexus_logo.png" alt="Nexus Layers Pipeline" width="80">
-</p>
+<h1>
+  <img src="../assets/nexus_logo.png" alt="Nexus logo" width="50"> Nexus Layers
+</h1>
 
 ## Contents
 
