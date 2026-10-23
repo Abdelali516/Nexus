@@ -1,18 +1,31 @@
-# Nexus Layers
+<h1>
+  <img src="../assets/nexus_logo.png" alt="Nexus logo" width="50"> Nexus Layers
+</h1>
 
 Building blocks for the Nexus model: the token embedding that turns token ids into vectors, and
 RoPE, which encodes token positions inside attention.
 
+## Pipeline
 
-<h1>
-  <img src="../assets/nexus_logo.png" alt="Nexus logo" width="50"> Nexus Layers
-</h1>
+```mermaid
+flowchart LR
+    ids["Token ids (B, T)"] --> emb["TokenEmbedding"]
+    emb --> x["x (B, T, d_model)"]
+    x --> q["Q = x W_q"]
+    x --> k["K = x W_k"]
+    x --> v["V = x W_v"]
+    q --> rq["RoPE"]
+    k --> rk["RoPE"]
+    rq --> att["Attention scores"]
+    rk --> att
+    att --> out["Weighted sum"]
+    v --> out
+```
 
 ## Contents
 
 - `embedding.py`: `TokenEmbedding`, token ids to vectors
 - `rope.py`: `RoPE`, position rotation for queries and keys
-
 
 ## Token embedding (`embedding.py`)
 
