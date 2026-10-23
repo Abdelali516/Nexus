@@ -5,8 +5,8 @@ RoPE, which encodes token positions inside attention.
 
 ## Pipeline
 
-<p align="center">
-  <img src="../assets/layers_pipeline.png" alt="Nexus Layers Pipeline" width="550">
+ <p align="center">
+  <img src="../assets/nexus_logo.png" alt="Nexus logo" width="80">
 </p>
 
 ## Contents
