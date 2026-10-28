@@ -19,6 +19,7 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 - **Tokenizer:** custom byte-level BPE, 50,000 tokens, built for English, code, math and tool calls
 - **Pretraining data:** about 16B tokens of English web text, math, Wikipedia and permissively
   licensed Python and C code
+- **Training:** Custom PyTorch training loop with AdamW, gradient accumulation, gradient clipping, learning-rate warmup, cosine decay, validation, and checkpointing.
 - **Agent:** tool use through a structured call format (`<|tool_call|>` ... `<|end_tool_call|>`)
 
 ## Status
@@ -27,11 +28,12 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 |-------|--------|
 | Tokenizer | Done: 50,000-token byte-level BPE with 32 special tokens (see [`tokenizer/`](tokenizer/)) |
 | Pretraining data | Done: tokenized shards of web, math, Wikipedia and code (see [`data_prep/`](data_prep/)) |
-| Data loader | Done: mixes sources by weight and serves training batches (see [`dataloader.py`](dataloader.py)) |
+| Data loader | Done: mixes sources by weight and serves training batches (see [`data_loader.py`](dataloader.py)) |
 | Model layers | Done: token embedding and RoPE (see [`layers/`](layers/)) |
 | Attention block | Done: grouped-query attention with KV cache (see [`attention_block.py`](attention_block.py)) |
 | Transformer model | Done: 20 blocks, tied head, verified parameter count (see [`model.py`](model.py)) |
-| Training loop | Next |
+| Training loop | Implemented: AdamW, gradient accumulation, gradient clipping, learning-rate scheduling, validation, and checkpointing |
+| Pipeline testing | Passed: core training components tested with a small model; full-scale training not yet verified |
 | Pretraining | Planned |
 | Supervised fine-tuning for tool use | Planned |
 | Agent runtime (tools, memory, planner) | Planned |
@@ -62,6 +64,30 @@ transformer. The attention block and the full model differ from the classic vers
   `0.02 / sqrt(2 × num_layers)`, so the residual stream doesn't grow with depth.
 - **Final RMSNorm** before the output head, with logits returned in the compute dtype.
 - **Verified size:** 794,544,128 parameters with the Nexus config.
+
+## Training
+
+Nexus uses a custom PyTorch training loop implemented in `train.py` to train the
+Transformer on tokenized text.
+
+Each training step follows this process:
+
+1. **Batch loading:** `PretrainLoader` provides input token sequences and their next-token targets.
+2. **Forward pass:** The Transformer produces logits for next-token prediction.
+3. **Loss calculation:** Cross-entropy measures the difference between predictions and target tokens.
+4. **Gradient accumulation:** Gradients are accumulated across multiple micro-batches before updating model parameters.
+5. **Gradient clipping:** Gradients are clipped to the configured maximum norm.
+6. **Optimization:** AdamW updates the model parameters.
+7. **Learning-rate scheduling:** Linear warmup is followed by cosine decay toward the minimum learning rate.
+8. **Evaluation:** Validation loss and perplexity are calculated at configured intervals.
+9. **Checkpointing:** Model weights, optimizer state, training step, best validation loss, and training-loader state are saved.
+
+Training hyperparameters are configured in `config.json`, including batch size,
+gradient accumulation, learning rate, warmup steps, maximum training steps,
+evaluation frequency, and checkpoint frequency.
+
+The core pipeline has passed a small-model test. Full-scale pretraining and
+`torch.compile` execution remain to be verified.
 
 ## Project Structure
 
