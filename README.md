@@ -28,11 +28,11 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 |-------|--------|
 | Tokenizer | Done: 50,000-token byte-level BPE with 32 special tokens (see [`tokenizer/`](tokenizer/)) |
 | Pretraining data | Done: tokenized shards of web, math, Wikipedia and code (see [`data_prep/`](data_prep/)) |
-| Data loader | Done: mixes sources by weight and serves training batches (see [`data_loader.py`](dataloader.py)) |
+| Data loader | Done: mixes sources by weight and serves training batches (see [`data_loader.py`](data_loader.py)) |
 | Model layers | Done: token embedding and RoPE (see [`layers/`](layers/)) |
 | Attention block | Done: grouped-query attention with KV cache (see [`attention_block.py`](attention_block.py)) |
 | Transformer model | Done: 20 blocks, tied head, verified parameter count (see [`model.py`](model.py)) |
-| Training loop | Implemented: AdamW, gradient accumulation, gradient clipping, learning-rate scheduling, validation, and checkpointing |
+| Training loop | Implemented: AdamW, gradient accumulation, gradient clipping, learning-rate scheduling, validation, and checkpointing (see [`train.py`](train.py)) |
 | Pipeline testing | Passed: core training components tested with a small model; full-scale training not yet verified |
 | Pretraining | Planned |
 | Supervised fine-tuning for tool use | Planned |
