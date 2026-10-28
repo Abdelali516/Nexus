@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
 import glob
-
 import numpy as np
 import torch
 
@@ -27,9 +26,9 @@ def list_shards(name, split):
 
 
 class PretrainLoader:
-    def __init__(self, split="train", batch_size=None, device="cpu"):
+    def __init__(self, split="train", batch_size=None, device=None):
         self.batch_size = batch_size or config["batch_size"]
-        self.device = device
+        self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # chooses which source each row of a batch comes from, seeded so runs are reproducible
         self.rng = np.random.default_rng(SEED)
 
@@ -65,7 +64,7 @@ class PretrainLoader:
         src = self.sources[idx]
         if src["pos"] >= len(src["order"]):
             next_epoch = src["epoch"] + 1
-            self._reshuffle(idx, epoch=next_epoch)  # note: epoch_of does not exist yet
+            self._reshuffle(idx, epoch=next_epoch) 
         shard_id, start = src["windows"][src["order"][src["pos"]]]
         src["pos"] += 1  
         return src["shards"][shard_id], start
@@ -82,3 +81,20 @@ class PretrainLoader:
         # targets: every token except the first, so y is x shifted one position left
         y = torch.from_numpy(rows[:, 1:].copy()).to(self.device)
         return x, y
+
+    def state_dict(self):
+        return {
+            "rng": self.rng.bit_generator.state,
+            "sources": [
+                {"name": s["name"], "epoch": s["epoch"], "pos": s["pos"]}
+                for s in self.sources
+            ],
+        }
+
+    def load_state_dict(self, state):
+        self.rng.bit_generator.state = state["rng"]
+        for idx, (src, saved) in enumerate(zip(self.sources, state["sources"])):
+            if src["name"] != saved["name"]:
+                raise ValueError(f"checkpoint source {saved['name']} does not match {src['name']}")
+            self._reshuffle(idx, epoch=saved["epoch"])
+            src["pos"] = saved["pos"]
