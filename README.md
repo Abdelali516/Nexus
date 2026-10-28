@@ -91,27 +91,29 @@ The core pipeline has passed a small-model test. Full-scale pretraining and
 
 ## Project Structure
 
-```
+```text
 Nexus/
-├── assets/            logo and images
-├── tokenizer/         tokenizer code and the trained tokenizer
-├── data_prep/         pretraining data pipeline
-├── layers/            token embedding and RoPE
-├── attention_block.py grouped-query causal attention with KV cache, and transformer block
-├── model.py           full Transformer: embedding, 20 blocks, final norm, tied head
-├── dataloader.py      batch loader for pretraining
-├── config.json        model and training settings
-├── training/          (next)
-├── agent/             (planned)
+├── assets/              logo and images
+├── tokenizer/           tokenizer code and trained tokenizer
+├── data_prep/           pretraining data pipeline and datasets
+├── layers/              token embedding, RoPE, and normalization
+├── attention_block.py   grouped-query attention and transformer block
+├── model.py             full Transformer with tied output head
+├── data_loader.py       pretraining batch loader
+├── train.py             pretraining loop and checkpointing
+├── config.json          model and training configuration
+├── training/            (planned: additional training utilities)
+├── agent/               (planned: agent runtime)
 │   ├── planner/
 │   ├── executor/
 │   ├── memory/
 │   └── tools/
-├── rag/               (planned)
-├── evaluation/        (planned)
-├── inference/         (planned)
-└── scripts/           (planned)
+├── rag/                 (planned: retrieval-augmented generation)
+├── evaluation/          (planned: model evaluation)
+├── inference/           (planned: inference utilities)
+└── scripts/             (planned: helper scripts)
 ```
+
 
 ## License
 
