@@ -15,7 +15,7 @@ using reasoning, tools, memory, web research, code execution, and document retri
 Nexus is built end to end: its own tokenizer, its own pretraining data, and its own model
 trained from scratch, then fine-tuned to use tools. The goal is an agent anyone can run.
 
-- **Model:** decoder-only transformer, about 800M parameters, 4,096-token context (planned)
+- **Model:** decoder-only transformer, 794.5M parameters, 4,096-token context
 - **Tokenizer:** custom byte-level BPE, 50,000 tokens, built for English, code, math and tool calls
 - **Pretraining data:** about 16B tokens of English web text, math, Wikipedia and permissively
   licensed Python and C code
@@ -29,33 +29,62 @@ trained from scratch, then fine-tuned to use tools. The goal is an agent anyone 
 | Pretraining data | Done: tokenized shards of web, math, Wikipedia and code (see [`data_prep/`](data_prep/)) |
 | Data loader | Done: mixes sources by weight and serves training batches (see [`dataloader.py`](dataloader.py)) |
 | Model layers | Done: token embedding and RoPE (see [`layers/`](layers/)) |
-| Attention block | Next |
+| Attention block | Done: grouped-query attention with KV cache (see [`attention_block.py`](attention_block.py)) |
+| Transformer model | Done: 20 blocks, tied head, verified parameter count (see [`model.py`](model.py)) |
+| Training loop | Next |
 | Pretraining | Planned |
 | Supervised fine-tuning for tool use | Planned |
 | Agent runtime (tools, memory, planner) | Planned |
 | Evaluation | Planned |
 
+## Architecture
+
+Nexus uses the design of modern open LLMs (Llama, Mistral, Qwen) rather than the 2017
+transformer. The attention block and the full model differ from the classic version in these ways.
+
+**Attention (`attention_block.py`)**
+
+- **Grouped-query attention.** 16 query heads share 8 key/value heads, halving the KV cache
+  without a noticeable quality loss.
+- **Pre-norm residual blocks** with RMSNorm before each sublayer, which keeps training stable at depth.
+- **SwiGLU MLP** in each block: `down(silu(gate(x)) * up(x))`, with hidden width 3584 instead of
+  the classic 4 × d_model, since three matrices replace two.
+- **No biases** in any linear layer.
+- **Fused attention** through `scaled_dot_product_attention`, which uses FlashAttention on supported GPUs.
+- **KV cache** for generation. Keys and values are cached before the head repeat, and the mask
+  depends on the case: no cache, one new token, or several new tokens after a cache.
+
+**Model (`model.py`)**
+
+- **Tied output head.** The head reuses the embedding table, saving about 102M parameters.
+- **Scaled initialization.** Linear weights start from a normal distribution with std 0.02. The two
+  layers that write into the residual stream (attention output and MLP down-projection) use
+  `0.02 / sqrt(2 × num_layers)`, so the residual stream doesn't grow with depth.
+- **Final RMSNorm** before the output head, with logits returned in the compute dtype.
+- **Verified size:** 794,544,128 parameters with the Nexus config.
+
 ## Project Structure
 
 ```
 Nexus/
-├── assets/          logo and images
-├── tokenizer/       tokenizer code and the trained tokenizer
-├── data_prep/       pretraining data pipeline
-├── dataloader.py    batch loader for pretraining
-├── layers/          token embedding and RoPE
-├── config.json      model and training settings
-├── model/           (planned)
-├── training/        (planned)
-├── agent/           (planned)
+├── assets/            logo and images
+├── tokenizer/         tokenizer code and the trained tokenizer
+├── data_prep/         pretraining data pipeline
+├── layers/            token embedding and RoPE
+├── attention_block.py grouped-query causal attention with KV cache, and transformer block
+├── model.py           full Transformer: embedding, 20 blocks, final norm, tied head
+├── dataloader.py      batch loader for pretraining
+├── config.json        model and training settings
+├── training/          (next)
+├── agent/             (planned)
 │   ├── planner/
 │   ├── executor/
 │   ├── memory/
 │   └── tools/
-├── rag/             (planned)
-├── evaluation/      (planned)
-├── inference/       (planned)
-└── scripts/         (planned)
+├── rag/               (planned)
+├── evaluation/        (planned)
+├── inference/         (planned)
+└── scripts/           (planned)
 ```
 
 ## License
