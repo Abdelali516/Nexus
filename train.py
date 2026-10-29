@@ -156,3 +156,4 @@ while step < cfg["max_steps"]:
 
     if step % cfg["save_every"] == 0:
         save_checkpoint(ROOT_DIR / "checkpoint.pt")
+        t0=time.time()
