@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import os
 from huggingface_hub import HfApi
 from model import Transformer
 import torch
@@ -90,7 +91,16 @@ def evaluate():
     return total / len(eval_batches)
 
 
-def save_checkpoint(path):
+def upload(path, name, label):
+    api.upload_file(
+        path_or_fileobj=path,
+        path_in_repo=name,
+        repo_id=REPO_ID,
+        commit_message=f"{label} at step {step}",
+    )
+
+def save_checkpoint():
+    path = ROOT_DIR / "checkpoint.pt"
     torch.save({
         "model": model.state_dict(),
         "optimizer": optimizer.state_dict(),
@@ -98,12 +108,12 @@ def save_checkpoint(path):
         "best_val": best_val,
         "loader": loader.state_dict(),
     }, path)
-    api.upload_file(
-        path_or_fileobj=path,
-        path_in_repo="checkpoint.pt",
-        repo_id=REPO_ID,
-        commit_message=f"checkpoint at step {step}",
-    )
+    try:
+        upload(path, "checkpoint.pt", "checkpoint")
+    except Exception as e:
+        print(f"upload failed at step {step}, will retry at next save: {e}")
+    finally:
+        os.remove(path)   # keep nothing locally; the next save rewrites it
 
 
 accum = cfg["gradient_accumulation_steps"]
@@ -151,9 +161,16 @@ while step < cfg["max_steps"]:
               f"gap {val_loss - avg_loss:+.4f}")
         if cfg["save_best"] and val_loss < best_val:
             best_val = val_loss
-            torch.save(model.state_dict(), ROOT_DIR / "best.pt")
+            path = ROOT_DIR / "best.pt"
+            torch.save(model.state_dict(), path)
+            try:
+                upload(path, "best.pt", "best")
+            except Exception as e:
+                print(f"best upload failed at step {step}: {e}")
+            finally:
+                os.remove(path)
         t0 = time.time()
 
     if step % cfg["save_every"] == 0:
-        save_checkpoint(ROOT_DIR / "checkpoint.pt")
-        t0=time.time()
+        save_checkpoint()
+        t0 = time.time()
