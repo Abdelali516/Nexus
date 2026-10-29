@@ -2,6 +2,8 @@ from pathlib import Path
 import json
 import os
 from huggingface_hub import HfApi
+from huggingface_hub import hf_hub_download
+from huggingface_hub.utils import EntryNotFoundError
 from model import Transformer
 import torch
 from data_loader import PretrainLoader
@@ -122,6 +124,23 @@ tokens_per_step = cfg["batch_size"] * cfg["gradient_accumulation_steps"] * cfg["
 t0 = time.time()
 
 model.train()
+
+def load_checkpoint():
+    global step, best_val
+    try:
+        path = hf_hub_download(repo_id=REPO_ID, filename="checkpoint.pt", force_download=True)
+    except EntryNotFoundError:
+        print("no checkpoint on the Hub yet, starting from step 0")
+        return
+    ckpt = torch.load(path, map_location=device, weights_only=False)
+    model.load_state_dict(ckpt["model"])
+    optimizer.load_state_dict(ckpt["optimizer"])
+    loader.load_state_dict(ckpt["loader"])
+    step = ckpt["step"]
+    best_val = ckpt["best_val"]
+    print(f"resumed from step {step}")
+
+load_checkpoint()
 
 while step < cfg["max_steps"]:
     # set this step's learning rate before any micro-batch runs
