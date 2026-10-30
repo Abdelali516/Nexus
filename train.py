@@ -122,6 +122,7 @@ accum = cfg["gradient_accumulation_steps"]
 vocab_size = cfg["vocab_size"]
 tokens_per_step = cfg["batch_size"] * cfg["gradient_accumulation_steps"] * cfg["max_seq_len"]
 t0 = time.time()
+window_loss, window_count = 0.0, 0 # running sum for the 500-step average
 
 model.train()
 
@@ -163,6 +164,10 @@ while step < cfg["max_steps"]:
     optimizer.step()
     optimizer.zero_grad(set_to_none=True)
 
+    avg_loss = total_loss / accum     
+    window_loss += avg_loss               
+    window_count += 1
+
     step += 1
     if step % 10 == 0:
         if device.type == "cuda":
@@ -193,3 +198,7 @@ while step < cfg["max_steps"]:
     if step % cfg["save_every"] == 0:
         save_checkpoint()
         t0 = time.time()
+
+    if step % 500 == 0:                    # average of the last 500 steps
+        print(f"step {step:>6} | avg train loss (last 500) {window_loss / window_count:.4f}")
+        window_loss, window_count = 0.0, 0
