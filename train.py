@@ -110,13 +110,18 @@ def save_checkpoint():
         "best_val": best_val,
         "loader": loader.state_dict(),
     }, path)
-    try:
-        upload(path, "checkpoint.pt", "checkpoint")
-    except Exception as e:
-        print(f"upload failed at step {step}, will retry at next save: {e}")
-    finally:
-        os.remove(path)   # keep nothing locally; the next save rewrites it
 
+    try:
+        # 1. remove the old checkpoint from the repo so the old blob has no reference
+        api.delete_file(path_in_repo="checkpoint.pt", repo_id=REPO_ID,
+                        commit_message=f"remove old checkpoint before step {step}")
+        # 2. squash history so the old 9.5 GB is actually deleted from storage
+        api.super_squash_history(repo_id=REPO_ID, commit_message="keep latest only")
+        # 3. upload the new checkpoint
+        upload(path, "checkpoint.pt", "checkpoint")
+        os.remove(path)  # only delete the local copy after a successful upload
+    except Exception as e:
+        print(f"checkpoint save FAILED at step {step}, local copy kept at {path}: {e}")
 
 accum = cfg["gradient_accumulation_steps"]
 vocab_size = cfg["vocab_size"]
